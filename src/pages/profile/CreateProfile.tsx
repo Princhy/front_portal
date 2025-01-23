@@ -23,6 +23,7 @@ const CreateProfile = () => {
     level: "",
     location: "",
     description: "",
+    type: "candidate", // or "company"
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -37,9 +38,8 @@ const CreateProfile = () => {
       return;
     }
 
-    // TODO: Implement profile creation logic with your backend
     try {
-      // const response = await createProfile(formData);
+      // TODO: Implement API call to create profile
       toast({
         title: "Profil créé",
         description: "Votre profil a été créé avec succès",
@@ -62,6 +62,21 @@ const CreateProfile = () => {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="type">Type de profil</Label>
+              <Select
+                value={formData.type}
+                onValueChange={(value) => setFormData({ ...formData, type: value })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Sélectionnez le type de profil" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="candidate">Candidat</SelectItem>
+                  <SelectItem value="company">Entreprise</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="name">Nom complet</Label>
               <Input
