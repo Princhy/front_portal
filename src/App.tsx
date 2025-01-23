@@ -15,6 +15,8 @@ import EditAnnouncement from "./pages/announcements/EditAnnouncement";
 import ViewAnnouncement from "./pages/announcements/ViewAnnouncement";
 import Applications from "./pages/applications/Applications";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import CompanyDashboard from "./pages/dashboard/CompanyDashboard";
+import CandidateDashboard from "./pages/dashboard/CandidateDashboard";
 
 const queryClient = new QueryClient();
 
@@ -37,6 +39,8 @@ const App = () => (
           <Route path="/announcements/:id" element={<ViewAnnouncement />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/company/dashboard" element={<CompanyDashboard />} />
+          <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
