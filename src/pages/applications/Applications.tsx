@@ -9,6 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface Application {
   id: string;
@@ -19,6 +21,7 @@ interface Application {
 }
 
 const Applications = () => {
+  const { toast } = useToast();
   const [applications, setApplications] = useState<Application[]>([]);
 
   const getStatusBadge = (status: Application["status"]) => {
@@ -32,11 +35,27 @@ const Applications = () => {
     }
   };
 
+  const handleStatusChange = async (applicationId: string, newStatus: Application["status"]) => {
+    try {
+      // TODO: Implement API call to update status
+      toast({
+        title: "Statut mis à jour",
+        description: "Le statut de la candidature a été mis à jour avec succès",
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Une erreur est survenue lors de la mise à jour du statut",
+      });
+    }
+  };
+
   return (
     <div className="container mx-auto py-8">
       <Card>
         <CardHeader>
-          <CardTitle>Mes candidatures</CardTitle>
+          <CardTitle>Gestion des candidatures</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
@@ -46,6 +65,7 @@ const Applications = () => {
                 <TableHead>Entreprise</TableHead>
                 <TableHead>Statut</TableHead>
                 <TableHead>Date</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -55,11 +75,29 @@ const Applications = () => {
                   <TableCell>{application.company}</TableCell>
                   <TableCell>{getStatusBadge(application.status)}</TableCell>
                   <TableCell>{application.appliedAt}</TableCell>
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={() => handleStatusChange(application.id, "accepted")}
+                      >
+                        Accepter
+                      </Button>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        onClick={() => handleStatusChange(application.id, "rejected")}
+                      >
+                        Rejeter
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
               {applications.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center py-8">
+                  <TableCell colSpan={5} className="text-center py-8">
                     Aucune candidature pour le moment
                   </TableCell>
                 </TableRow>

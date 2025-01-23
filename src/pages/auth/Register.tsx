@@ -6,6 +6,19 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+interface CompanyFields {
+  size: "petite" | "moyenne" | "grande";
+  sector: string;
+  region: string;
+}
 
 const Register = () => {
   const navigate = useNavigate();
@@ -15,6 +28,12 @@ const Register = () => {
     password: "",
     confirmPassword: "",
     userType: "candidate", // or "company"
+  });
+
+  const [companyFields, setCompanyFields] = useState<CompanyFields>({
+    size: "petite",
+    sector: "",
+    region: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,9 +57,17 @@ const Register = () => {
       return;
     }
 
-    // TODO: Implement registration logic with your backend
+    if (formData.userType === "company" && (!companyFields.sector || !companyFields.region)) {
+      toast({
+        variant: "destructive",
+        title: "Erreur",
+        description: "Veuillez remplir tous les champs entreprise",
+      });
+      return;
+    }
+
     try {
-      // const response = await registerUser(formData);
+      // TODO: Implement registration logic with your backend
       toast({
         title: "Inscription réussie",
         description: "Votre compte a été créé avec succès",
@@ -110,6 +137,54 @@ const Register = () => {
                 </div>
               </RadioGroup>
             </div>
+
+            {formData.userType === "company" && (
+              <div className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="size">Taille de l'entreprise</Label>
+                  <Select
+                    value={companyFields.size}
+                    onValueChange={(value: "petite" | "moyenne" | "grande") =>
+                      setCompanyFields({ ...companyFields, size: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Sélectionnez la taille" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="petite">Petite (&lt; 50 employés)</SelectItem>
+                      <SelectItem value="moyenne">Moyenne (50-250 employés)</SelectItem>
+                      <SelectItem value="grande">Grande (&gt; 250 employés)</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="sector">Secteur d'activité</Label>
+                  <Input
+                    id="sector"
+                    value={companyFields.sector}
+                    onChange={(e) =>
+                      setCompanyFields({ ...companyFields, sector: e.target.value })
+                    }
+                    placeholder="Ex: Informatique, Finance, etc."
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="region">Région</Label>
+                  <Input
+                    id="region"
+                    value={companyFields.region}
+                    onChange={(e) =>
+                      setCompanyFields({ ...companyFields, region: e.target.value })
+                    }
+                    placeholder="Ex: Île-de-France, PACA, etc."
+                  />
+                </div>
+              </div>
+            )}
+
             <Button type="submit" className="w-full">
               S'inscrire
             </Button>
