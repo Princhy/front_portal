@@ -10,12 +10,7 @@ const Navbar = () => {
         </Link>
         
         <div className="flex items-center gap-6">
-          <Link to="/entreprises" className="text-gray-600 hover:text-primary">
-            Entreprises
-          </Link>
-          <Link to="/annonces" className="text-gray-600 hover:text-primary">
-            Annonces
-          </Link>
+          
           <Button asChild variant="outline">
             <Link to="/login">Connexion</Link>
           </Button>
