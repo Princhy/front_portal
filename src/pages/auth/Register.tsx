@@ -14,7 +14,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Contact } from "lucide-react";
+
+
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 interface CompanyFields {
   size: "petite" | "moyenne" | "grande";

@@ -17,6 +17,7 @@ import Applications from "./pages/applications/Applications";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CompanyDashboard from "./pages/dashboard/CompanyDashboard";
 import CandidateDashboard from "./pages/dashboard/CandidateDashboard";
+import AllAnnouncements from "./pages/announcements/allAnoucement";
 
 const queryClient = new QueryClient();
 
@@ -26,7 +27,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Navbar />
+        
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
@@ -36,6 +37,7 @@ const App = () => (
           <Route path="/profile/:id" element={<ViewProfile />} />
           <Route path="/announcements/create" element={<CreateAnnouncement />} />
           <Route path="/announcements/edit/:id" element={<EditAnnouncement />} />
+          <Route path="/company/announcements" element={<AllAnnouncements />} />
           <Route path="/announcements/:id" element={<ViewAnnouncement />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/admin" element={<AdminDashboard />} />

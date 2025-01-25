@@ -17,6 +17,12 @@ export default defineConfig(({ mode }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      '@emotion/styled': '@emotion/styled',
+      '@emotion/react': '@emotion/react',
     },
+  },
+  optimizeDeps: {
+    include: ['@mui/material', '@emotion/react', '@emotion/styled','react', 
+      'react-dom'],
   },
 }));

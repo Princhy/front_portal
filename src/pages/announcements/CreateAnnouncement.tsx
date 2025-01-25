@@ -13,21 +13,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ResponsiveAppBar from "@/components/mui/headerNavbar";
+import axios from "axios";
+
+
+interface FormData {
+  titre: string;
+  description: string;
+  location: string;
+  salary: string;
+  publied_by: string;
+  type: string;
+  statuts: string;
+}
 
 const CreateAnnouncement = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [formData, setFormData] = useState({
-    title: "",
+    titre: "",
     description: "",
-    type: "",
     location: "",
+    salary: "",
+    publied_by: "", // À récupérer depuis localStorage
+    type: "emploi",
+    statuts: "Disponible"
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.title || !formData.description || !formData.type || !formData.location) {
+    if (!formData.titre || !formData.description || !formData.type || !formData.location) {
       toast({
         variant: "destructive",
         title: "Erreur",
@@ -39,11 +55,20 @@ const CreateAnnouncement = () => {
     // TODO: Implement announcement creation logic with your backend
     try {
       // const response = await createAnnouncement(formData);
+      const response = await axios.post("http://localhost:5000/products/storejob", {
+        titre: formData.titre,
+        description: formData.description,
+        location: formData.location,
+        salary: formData.salary,
+        publied_by:"10",
+        type:formData.type, 
+        statuts: formData.statuts});
+
       toast({
         title: "Annonce créée",
         description: "Votre annonce a été publiée avec succès",
       });
-      navigate("/announcements");
+      navigate("company/announcements");
     } catch (error) {
       toast({
         variant: "destructive",
@@ -54,7 +79,9 @@ const CreateAnnouncement = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div>
+      <ResponsiveAppBar/>
+      <div className="container mx-auto px-4 py-8">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle>Publier une annonce</CardTitle>
@@ -65,8 +92,8 @@ const CreateAnnouncement = () => {
               <Label htmlFor="title">Titre de l'annonce</Label>
               <Input
                 id="title"
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                value={formData.titre}
+                onChange={(e) => setFormData({ ...formData, titre: e.target.value })}
                 placeholder="Titre de l'annonce"
               />
             </div>
@@ -82,7 +109,6 @@ const CreateAnnouncement = () => {
                 <SelectContent>
                   <SelectItem value="emploi">Emploi</SelectItem>
                   <SelectItem value="stage">Stage</SelectItem>
-                  <SelectItem value="service">Service</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -96,6 +122,16 @@ const CreateAnnouncement = () => {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="location">Salaire</Label>
+              <Input
+                id="location"
+                type="number"
+                value={formData.salary}
+                onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                placeholder="salaire"
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
@@ -105,12 +141,14 @@ const CreateAnnouncement = () => {
                 className="min-h-[200px]"
               />
             </div>
+            
             <Button type="submit" className="w-full">
               Publier l'annonce
             </Button>
           </form>
         </CardContent>
       </Card>
+    </div>
     </div>
   );
 };

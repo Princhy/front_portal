@@ -3,6 +3,7 @@ import JobCard from "@/components/JobCard";
 import CompanyCard from "@/components/CompanyCard";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import  Navbar  from "@/components/Navbar";
 
 const Index = () => {
   // Exemple de données (à remplacer par des vraies données plus tard)
@@ -38,6 +39,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Navbar />
       {/* Hero Section */}
       <section className="bg-primary text-white py-20">
         <div className="container mx-auto text-center">

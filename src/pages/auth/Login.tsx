@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Navbar from "@/components/Navbar";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -27,11 +29,27 @@ const Login = () => {
     // TODO: Implement login logic with your backend
     try {
       // const response = await loginUser({ email, password });
+      const response = await axios.post("http://localhost:5000/api/login", {
+        email,
+        password, });
+
+        console.log(response.data);
+        // Stockage du token
+    localStorage.setItem('token', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+
       toast({
         title: "Connexion réussie",
         description: "Vous êtes maintenant connecté",
       });
-      navigate("/");
+
+       // Redirection selon le rôle
+    if (response.data.user.role === 'candidate') {
+      navigate("/candidate/dashboard");
+    } else if (response.data.user.type === 'entite') {
+      navigate("/company/dashboard");
+    }
+
     } catch (error) {
       toast({
         variant: "destructive",
@@ -42,8 +60,9 @@ const Login = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Card className="max-w-md mx-auto">
+    <div>
+      <Navbar />
+      <Card className="max-w-md mx-auto my-8">
         <CardHeader>
           <CardTitle>Connexion</CardTitle>
         </CardHeader>

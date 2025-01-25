@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Building2, FileText, Users } from "lucide-react";
+import ResponsiveAppBar from "@/components/mui/headerNavbar";
 
 const CompanyDashboard = () => {
   const [stats] = useState({
@@ -14,7 +15,9 @@ const CompanyDashboard = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container mx-auto py-8">
+   <div>
+    <ResponsiveAppBar/>
+     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6">Tableau de bord Entreprise</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -76,6 +79,7 @@ const CompanyDashboard = () => {
         </Card>
       </div>
     </div>
+   </div>
   );
 };
 
