@@ -18,6 +18,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import CompanyDashboard from "./pages/dashboard/CompanyDashboard";
 import CandidateDashboard from "./pages/dashboard/CandidateDashboard";
 import AllAnnouncements from "./pages/announcements/allAnoucement";
+import AllPosts from "./pages/candidatures/Candidatures";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
           <Route path="/applications" element={<Applications />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/company/dashboard" element={<CompanyDashboard />} />
+          <Route path='/company/candidatures' element={<AllPosts/>}/>
           <Route path="/candidate/dashboard" element={<CandidateDashboard />} />
         </Routes>
       </BrowserRouter>
