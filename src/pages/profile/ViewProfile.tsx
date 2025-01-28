@@ -6,12 +6,12 @@ import { useToast } from "@/hooks/use-toast";
 
 interface Profile {
   id: string;
-  name: string;
-  skills: string;
-  level: string;
+nom: string;
+  prenom: string;
+  email: string;
   location: string;
-  description: string;
-  type: "candidate" | "company";
+  contact: string;
+  role: string;
 }
 
 const ViewProfile = () => {
@@ -24,12 +24,24 @@ const ViewProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        // TODO: Implement API call to fetch profile
-        // const response = await fetch(`/api/profiles/${id}`);
-        // const data = await response.json();
-        // setProfile(data);
+        // Effectuer l'appel API pour récupérer le profil par ID
+        const response = await fetch(`http://localhost:5000/api/user/${id}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          // Si la réponse est réussie, mettre à jour le profil
+          setProfile(data.user);
+        } else {
+          // Gérer le cas où le profil n'est pas trouvé
+          toast({
+            variant: "destructive",
+            title: "Erreur",
+            description: data.message || "Impossible de charger le profil",
+          });
+        }
         setLoading(false);
       } catch (error) {
+        // Gestion de l'erreur si l'appel échoue
         toast({
           variant: "destructive",
           title: "Erreur",
@@ -55,7 +67,7 @@ const ViewProfile = () => {
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
           <CardTitle className="flex justify-between items-center">
-            <span>Profil de {profile.name}</span>
+            <span>Profil de {profile.nom}</span>
             <Button onClick={() => navigate(`/profile/edit/${id}`)}>
               Modifier
             </Button>
@@ -64,23 +76,23 @@ const ViewProfile = () => {
         <CardContent className="space-y-4">
           <div>
             <h3 className="font-semibold">Type</h3>
-            <p>{profile.type === "candidate" ? "Candidat" : "Entreprise"}</p>
+            <p>{profile.role}</p>
           </div>
           <div>
-            <h3 className="font-semibold">Compétences</h3>
-            <p>{profile.skills}</p>
+            <h3 className="font-semibold">Nom</h3>
+            <p>{profile.nom}</p>
           </div>
           <div>
-            <h3 className="font-semibold">Niveau</h3>
-            <p>{profile.level}</p>
+            <h3 className="font-semibold">Prenom</h3>
+            <p>{profile.prenom}</p>
           </div>
           <div>
-            <h3 className="font-semibold">Localisation</h3>
-            <p>{profile.location}</p>
+            <h3 className="font-semibold">Email</h3>
+            <p>{profile.email}</p>
           </div>
           <div>
-            <h3 className="font-semibold">Description</h3>
-            <p>{profile.description}</p>
+            <h3 className="font-semibold">Contact</h3>
+            <p>{profile.contact}</p>
           </div>
         </CardContent>
       </Card>

@@ -68,7 +68,7 @@ const CreateAnnouncement = () => {
         title: "Annonce créée",
         description: "Votre annonce a été publiée avec succès",
       });
-      navigate("company/announcements");
+      navigate("/company/announcements");
     } catch (error) {
       toast({
         variant: "destructive",

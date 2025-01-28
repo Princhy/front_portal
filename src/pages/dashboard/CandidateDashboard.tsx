@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { FileText, Send, User } from "lucide-react";
-import ResponsiveAppBar from "@/components/mui/headerNavbar";
+import ResponsiveAppBar from "@/components/mui/navbarcandidat";
 
 const CandidateDashboard = () => {
   const [stats] = useState({
@@ -11,7 +11,16 @@ const CandidateDashboard = () => {
     pendingApplications: 3,
     savedAnnouncements: 5
   });
+  const user = JSON.parse(localStorage.getItem('user'));
 
+  // Vérifier si l'utilisateur est bien présent dans le localStorage
+  if (!user) {
+    console.error('Aucun utilisateur trouvé dans le localStorage');
+    return; // Ou gérer l'erreur comme vous le souhaitez
+  }
+  
+  // Extraire l'ID de l'utilisateur
+  const userId = user.id;
   const navigate = useNavigate();
 
   return (
@@ -62,15 +71,19 @@ const CandidateDashboard = () => {
             <Button onClick={() => navigate("/profile/edit")} className="w-full">
               Modifier mon profil
             </Button>
-            <Button onClick={() => navigate("/profile/view")} variant="outline" className="w-full">
-              Voir mon profil
-            </Button>
+            <Button 
+    onClick={() => navigate(`/profile/${userId}`)} 
+    variant="outline" 
+    className="w-full"
+  >
+    Voir mon profil
+  </Button>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Mes Candidatures</CardTitle>
+            <CardTitle>Mes Candidatures ra</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <Button onClick={() => navigate("/applications")} className="w-full">

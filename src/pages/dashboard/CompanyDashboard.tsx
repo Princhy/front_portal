@@ -1,16 +1,33 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Building2, FileText, Users } from "lucide-react";
 import ResponsiveAppBar from "@/components/mui/headerNavbar";
+import axios from "axios";
+
+
 
 const CompanyDashboard = () => {
-  const [stats] = useState({
-    totalAnnouncements: 12,
+  const [numAnn, setNumAnn] = useState(0);
+  useEffect(() => {
+    const fetchNum = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/products/getjob');
+            setNumAnn(response.data.num);
+            console.log(response.data.num)
+        } catch (error) {
+            console.error('Erreur lors de la récupération des emplois:', error);
+        }
+    };
+    fetchNum();
+}, []);
+
+  const stats ={
+    totalAnnouncements: numAnn,
     totalApplications: 45,
     pendingApplications: 8
-  });
+  };
 
   const navigate = useNavigate();
 

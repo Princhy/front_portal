@@ -12,12 +12,14 @@ import EditProfile from "./pages/profile/EditProfile";
 import ViewProfile from "./pages/profile/ViewProfile";
 import CreateAnnouncement from "./pages/announcements/CreateAnnouncement";
 import EditAnnouncement from "./pages/announcements/EditAnnouncement";
+import Candidature from "./pages/announcements/candidature";
 import ViewAnnouncement from "./pages/announcements/ViewAnnouncement";
 import Applications from "./pages/applications/Applications";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CompanyDashboard from "./pages/dashboard/CompanyDashboard";
 import CandidateDashboard from "./pages/dashboard/CandidateDashboard";
 import AllAnnouncements from "./pages/announcements/allAnoucement";
+import CaAnnouncements from "./pages/announcements/candidatAnnonce";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +40,8 @@ const App = () => (
           <Route path="/announcements/create" element={<CreateAnnouncement />} />
           <Route path="/announcements/edit/:id" element={<EditAnnouncement />} />
           <Route path="/company/announcements" element={<AllAnnouncements />} />
+          <Route path="/company/Coannonce" element={<CaAnnouncements />} />
+          <Route path="/company/candidatures" element={<Candidature />} />
           <Route path="/announcements/:id" element={<ViewAnnouncement />} />
           <Route path="/applications" element={<Applications />} />
           <Route path="/admin" element={<AdminDashboard />} />

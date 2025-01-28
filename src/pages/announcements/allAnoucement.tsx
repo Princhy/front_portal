@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ResponsiveAppBar from '@/components/mui/headerNavbar';
 import Card from '@mui/material/Card';
 import Box from '@mui/material/Box';
@@ -109,22 +109,48 @@ const handleFormChange = (e) => {
     // Fonction de modification
     const handleEdit = async (e) => {
         e.preventDefault();
+    
         try {
-            await axios.put(`http://localhost:5000/products/updatejob/${selectedJob.id}`, formData);
+            // Préparation des données pour inclure les ajustements nécessaires
+            const updatedData = {
+                ...formData,
+                salary: formData.salary.toString(), // Convertir le salaire en chaîne de caractères
+                statuts: formData.statuts || 'Non Disponible', // Ajouter le statut par défaut si absent
+            };
+    
+            // Envoi de la requête PUT au backend
+            await axios.put(`http://localhost:5000/products/updatejob/${selectedJob.id}`, updatedData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            // Mettre à jour localement les données de l'annonce dans le frontend
             setJobs(jobs.map(job => 
                 job.id === selectedJob.id 
-                    ? { ...job, ...formData }
+                    ? { ...job, ...updatedData }
                     : job
             ));
+    
+            // Fermer le modal d'édition et afficher un toast de confirmation
             handleCloseEdit();
             toast({
                 title: "Annonce modifiée",
                 description: "Votre annonce a été modifiée avec succès",
-              });
+                status: "success",
+            });
+    
         } catch (error) {
-            console.error('Erreur lors de la modification:', error);
+            // Gestion des erreurs avec des logs plus détaillés
+            console.error('Erreur lors de la modification:', error.response?.data || error.message);
+            toast({
+                title: "Erreur",
+                description: "Une erreur est survenue lors de la modification de l'annonce.",
+                status: "error",
+            });
         }
     };
+    
 
     useEffect(() => {
         const fetchJobs = async () => {
@@ -210,16 +236,7 @@ const handleFormChange = (e) => {
                 onChange={handleFormChange}
                 margin="normal"
             />
-            <TextField
-                fullWidth
-                label="Description"
-                name="description"
-                value={formData.description}
-                onChange={handleFormChange}
-                margin="normal"
-                multiline
-                rows={4}
-            />
+           
             <TextField
                 fullWidth
                 label="Salaire"
@@ -237,11 +254,21 @@ const handleFormChange = (e) => {
                 onChange={handleFormChange}
                 margin="normal"
             />
+             <TextField
+                fullWidth
+                label="Description"
+                name="description"
+                value={formData.description}
+                onChange={handleFormChange}
+                margin="normal"
+                multiline
+                rows={4}
+            />
             <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
                 <Button onClick={handleCloseEdit} variant="outlined">
                     Annuler
                 </Button>
-                <Button type="submit" variant="contained" color="primary">
+                <Button type="submit" onClick={handleEdit} variant="contained" color="primary">
                     Enregistrer
                 </Button>
             </Stack>
