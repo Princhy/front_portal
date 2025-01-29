@@ -14,6 +14,8 @@ import AdbIcon from '@mui/icons-material/Adb';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
+import Badge from '@mui/material/Badge';
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 
 
@@ -48,7 +50,7 @@ function ResponsiveAppBar() {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         // Rediriger vers la page de connexion
-        navigate('/login');
+        navigate('/');
         break;
       case 'Profile':
         navigate('/profile');
@@ -187,6 +189,17 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
+            
+           <IconButton
+          size="large"
+          aria-label="show 17 new notifications"
+          color="inherit"
+        >
+          <Badge badgeContent={17} color="error">
+            <NotificationsIcon />
+          </Badge>
+        </IconButton>
+
                {settings.map((setting) => (
     <MenuItem key={setting} onClick={() => handleMenuClick(setting)}>
       <Typography textAlign="center">{setting}</Typography>

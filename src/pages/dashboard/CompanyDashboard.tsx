@@ -89,7 +89,7 @@ const CompanyDashboard = () => {
             <CardTitle>Gestion des Candidatures</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <Button onClick={() => navigate("/company/applications")} className="w-full">
+            <Button onClick={() => navigate("/company/candidatures")} className="w-full">
               Voir les candidatures
             </Button>
           </CardContent>
